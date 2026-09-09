@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+dados.db
+.git
+.gitignore
+README.md
