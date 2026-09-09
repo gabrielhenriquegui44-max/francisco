@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h2 style="margin-top:0; font-size:1.1rem;">{{ acao }} equipamento</h2>
+    <form method="post">
+        <label for="nome">Nome *</label>
+        <input type="text" id="nome" name="nome" value="{{ item['nome'] if item else '' }}" required>
+
+        <label for="tipo">Tipo</label>
+        <input type="text" id="tipo" name="tipo" placeholder="Ex: sensor, câmera, gateway"
+               value="{{ item['tipo'] if item else '' }}">
+
+        <label for="localizacao">Localização</label>
+        <input type="text" id="localizacao" name="localizacao" placeholder="Ex: Setor A, Linha 2"
+               value="{{ item['localizacao'] if item else '' }}">
+
+        <label for="status">Status</label>
+        <select id="status" name="status">
+            {% set atual = item['status'] if item else '' %}
+            <option value="Ativo" {% if atual == 'Ativo' %}selected{% endif %}>Ativo</option>
+            <option value="Inativo" {% if atual == 'Inativo' %}selected{% endif %}>Inativo</option>
+            <option value="Manutenção" {% if atual == 'Manutenção' %}selected{% endif %}>Manutenção</option>
+        </select>
+
+        <label for="ultima_leitura">Última leitura</label>
+        <input type="text" id="ultima_leitura" name="ultima_leitura" placeholder="Ex: 23.5°C às 14:00"
+               value="{{ item['ultima_leitura'] if item else '' }}">
+
+        <div class="actions" style="margin-top:1rem;">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{{ url_for('listar') }}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

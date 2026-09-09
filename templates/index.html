@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="top-bar">
+        <h2 style="margin:0; font-size:1.1rem;">Equipamentos cadastrados</h2>
+        <a href="{{ url_for('criar') }}" class="btn btn-primary">+ Novo</a>
+    </div>
+
+    {% if itens %}
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Localização</th>
+                <th>Status</th>
+                <th>Última leitura</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in itens %}
+            <tr>
+                <td>{{ item['nome'] }}</td>
+                <td>{{ item['tipo'] }}</td>
+                <td>{{ item['localizacao'] }}</td>
+                <td>
+                    {% set s = (item['status'] or '')|lower %}
+                    <span class="status-tag status-{{ s if s in ['ativo','inativo','manutencao'] else 'inativo' }}">
+                        {{ item['status'] or '-' }}
+                    </span>
+                </td>
+                <td>{{ item['ultima_leitura'] or '-' }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('editar', item_id=item['id']) }}" class="btn btn-secondary">Editar</a>
+                    <form action="{{ url_for('apagar', item_id=item['id']) }}" method="post"
+                          onsubmit="return confirm('Tem certeza que deseja apagar este registro?');">
+                        <button type="submit" class="btn btn-danger">Apagar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="empty">Nenhum equipamento cadastrado ainda. Clique em "+ Novo" para começar.</p>
+    {% endif %}
+</div>
+{% endblock %}
